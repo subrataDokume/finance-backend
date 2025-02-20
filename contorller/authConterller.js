@@ -64,8 +64,16 @@ exports.login = async (req, res) => {
 
 exports.logout = async (req, res) => {
     try {
-        const authToken = req.cookies.financejwt;
-        if (!authToken) {
+        let token;
+        if (
+            req.headers.authorization &&
+            req.headers.authorization.startsWith('Bearer')
+        ) {
+            token = req.headers.authorization.split(' ')[1];
+        } else if (req.cookies.financejwt) {
+            token = req.cookies.financejwt;
+        }
+        if (!token) {
             console.log('No auth token found');
             return res.status(404).json({ message: 'No auth token found', success: false });
         }
