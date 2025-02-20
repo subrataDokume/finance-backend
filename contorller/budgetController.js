@@ -95,8 +95,8 @@ exports.budgetAlert = async (req, res) => {
                     budgetAmount:budget.amount,
                 });
         }
-        res.status(200).json(alerts);
+        res.status(200).json({message:alerts,success:true});
     } catch (err) {
-        res.status(400).json({ error: err.message });
+        res.status(400).json({ message:err?.message,success:false });
     }
 }
